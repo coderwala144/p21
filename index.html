@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #1e88e5;
+            height: 100vh;
+            overflow: hidden;
+            color: white;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        /* Page 1 Styles */
+        .page1 {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .balloons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: radial-gradient(circle at 50% 30%, #ff4081, #ff4081 40%, #ec407a 70%);
+            border-radius: 50%;
+            animation: float 5s infinite ease-in-out;
+            box-shadow: inset -7px -7px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .balloon:before {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 15px;
+            background-color: #ff4081;
+            border-radius: 10px;
+            top: 80px;
+            left: 26px;
+        }
+
+        .balloon:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 2px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 15px solid #ff4081;
+            top: 95px;
+            left: 24px;
+        }
+
+        .cake-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cake {
+            width: 150px;
+            height: 100px;
+            background: linear-gradient(to right, #f06292, #f48fb1);
+            border-radius: 10px;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cake:before {
+            content: "";
+            position: absolute;
+            width: 160px;
+            height: 20px;
+            background: linear-gradient(to right, #f8bbd0, #fce4ec);
+            border-radius: 10px;
+            top: -10px;
+            left: -5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .candle {
+            width: 15px;
+            height: 40px;
+            background: linear-gradient(to top, #ffee58, #ffeb3b);
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
+        }
+
+        .candle:before {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #ff8f00;
+            border-radius: 50%;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 1s infinite alternate;
+        }
+
+        .cake-caption {
+            margin-top: 20px;
+            font-size: 20px;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Page 2 Styles */
+        .page2 {
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .message-container {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff176;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .special-words {
+            color: #fff176;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        /* Animations */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        @keyframes flicker {
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 10px #ff8f00;
+            }
+
+            50% {
+                opacity: 0.7;
+                box-shadow: 0 0 20px #ff8f00;
+            }
+        }
+
+        /* Transition between pages */
+        .transition-out {
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                display: none;
+            }
+        }
+
+        .transition-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                display: none;
+            }
+
+            100% {
+                opacity: 1;
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page 1 - Cake and Balloons -->
+    <div class="page1" id="page1">
+        <div class="balloons" id="balloons"></div>
+        <div class="cake-container">
+            <div class="cake">
+                <div class="candle" id="candle"></div>
+            </div>
+            <div class="cake-caption">Blow the candle to see your surprise!</div>
+        </div>
+    </div>
+
+    <!-- Page 2 - Birthday Message -->
+    <div class="page2" id="page2">
+        <div class="message-container">
+            <h1>Happy Birthday! 🎉</h1>
+            <p>Sweeet Adibaaaa... <span class="special-words"> My female bestie</span>,</p>
+            <p>On this special day, I want you to know how <span class="special-words">amazing</span> you are and how
+                <span class="special-words">lucky</span> I feel to have you in my life. May this year bring you as much
+                <span class="special-words">joy and happiness</span> as you bring to everyone around you.</p><p>stay blessed....</p>
+            </p>
+            
+            <p><span class="special-words">Your best friend</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Create balloons
+        const balloonsContainer = document.getElementById('balloons');
+        for (let i = 0; i < 15; i++) {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = `${Math.random() * 100}%`;
+            balloon.style.top = `${Math.random() * 100}%`;
+            balloon.style.animationDelay = `${Math.random() * 5}s`;
+
+            // Random colors
+            const colors = ['#ff4081', '#00bcd4', '#7c4dff', '#ff5722', '#4caf50'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.background = `radial-gradient(circle at 50% 30%, ${randomColor}, ${randomColor} 40%, ${darkenColor(randomColor, 30)} 70%)`;
+            balloon.style.setProperty('--balloon-color', randomColor);
+
+            balloonsContainer.appendChild(balloon);
+        }
+
+        // Candle click event
+        const candle = document.getElementById('candle');
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+
+        candle.addEventListener('click', function () {
+            // Blow out candle animation
+            candle.style.animation = 'none';
+            candle.style.transform = 'translateX(-50%) scale(0.8)';
+            candle.style.boxShadow = 'none';
+            candle.style.opacity = '0.8';
+
+            // Remove the flame
+            candle.style.before = 'none';
+
+            // Create floating smoke particles
+            for (let i = 0; i < 5; i++) {
+                const smoke = document.createElement('div');
+                smoke.className = 'smoke';
+                smoke.style.width = `${Math.random() * 5 + 3}px`;
+                smoke.style.height = `${Math.random() * 5 + 3}px`;
+                smoke.style.background = 'rgba(255, 255, 255, 0.7)';
+                smoke.style.borderRadius = '50%';
+                smoke.style.position = 'absolute';
+                smoke.style.top = '50%';
+                smoke.style.left = '50%';
+                smoke.style.transform = 'translate(-50%, -50%)';
+                candle.appendChild(smoke);
+
+                const animation = smoke.animate([
+                    { transform: 'translate(-50%, -50%) scale(1)', opacity: 0.8 },
+                    { transform: 'translate(-50%, -120px) scale(3)', opacity: 0 }
+                ], {
+                    duration: 1500 + Math.random() * 1000,
+                    easing: 'cubic-bezier(0.4, 0, 1, 1)'
+                });
+
+                animation.onfinish = () => smoke.remove();
+            }
+
+            // Transition to page 2 after delay
+            setTimeout(() => {
+                page1.classList.add('transition-out');
+                setTimeout(() => {
+                    page1.style.display = 'none';
+                    page2.style.display = 'flex';
+                    page2.classList.add('transition-in');
+                }, 1000);
+            }, 1500);
+        });
+
+        // Helper function to darken colors
+        function darkenColor(color, percent) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) - amt;
+            const G = (num >> 8 & 0x00FF) - amt;
+            const B = (num & 0x0000FF) - amt;
+
+            return `#${(
+                0x1000000 +
+                (R < 0 ? 0 : R) * 0x10000 +
+                (G < 0 ? 0 : G) * 0x100 +
+                (B < 0 ? 0 : B)
+            ).toString(16).slice(1)}`;
+        }
+    </script>
+</body>
+
+</html>
